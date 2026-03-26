@@ -1,0 +1,7 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/sample-service:$COMMIT_SHA', '.']
+    dir: 'app/sample-service'
+
+images:
+  - 'LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/sample-service:$COMMIT_SHA'

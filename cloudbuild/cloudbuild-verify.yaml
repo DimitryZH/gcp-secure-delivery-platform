@@ -1,0 +1,8 @@
+steps:
+  - name: 'ubuntu'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Add release verification steps here."
+        echo "Examples: policy checks, metadata checks, post-build controls."
