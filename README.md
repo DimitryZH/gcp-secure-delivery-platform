@@ -84,7 +84,15 @@ Cloud Monitoring + Cloud Logging
 gcp-secure-delivery-platform/
 ├── README.md
 ├── docs/
-│   ├── architecture.md
+│   ├── architecture/
+│   │   ├── overview.md
+│   │   ├── release-identity.md
+│   │   ├── release-metadata.md
+│   │   ├── trust-model.md
+│   │   ├── promotion-semantics.md
+│   │   ├── environment-policies.md
+│   │   └── mvp-boundaries.md
+│   ├── roadmap.md
 │   ├── release-flow.md
 │   ├── security-controls.md
 │   ├── binary-authorization.md
@@ -129,6 +137,29 @@ gcp-secure-delivery-platform/
 └── diagrams/
     └── README.md
 ```
+
+## Roadmap
+
+The project roadmap is organized around the trusted release model before deeper infrastructure implementation:
+
+1. **Trusted Release Model** — release identity, trust model, promotion semantics, and environment policies.
+2. **Minimal Executable Foundation** — Terraform foundation, Artifact Registry, one GKE cluster, IAM baseline, and Cloud Build trigger path.
+3. **Executable Trusted Path** — verification logic, attestation concept, Binary Authorization, and blocked deployment scenario.
+4. **Controlled Promotion** — Cloud Deploy and explicit dev → stage → prod progression.
+5. **Operational Visibility** — observability tied to release identity and operator review.
+6. **Demo Packaging** — runnable scenarios and portfolio-ready presentation.
+
+See [docs/roadmap.md](docs/roadmap.md) for the detailed roadmap.
+
+## Architecture documents
+
+- [Architecture overview](docs/architecture/overview.md)
+- [Release identity](docs/architecture/release-identity.md)
+- [Release metadata contract](docs/architecture/release-metadata.md)
+- [Trust model](docs/architecture/trust-model.md)
+- [Promotion semantics](docs/architecture/promotion-semantics.md)
+- [Environment policies](docs/architecture/environment-policies.md)
+- [MVP boundaries](docs/architecture/mvp-boundaries.md)
 
 ## Demo scenarios
 
