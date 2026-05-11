@@ -103,7 +103,10 @@ gcp-secure-delivery-platform/
 │   
 ├── terraform/
 │   ├── foundation/
-│   │   └── README.md
+│   │   ├── README.md
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── versions.tf
 │   ├── environments/
 │   │   ├── dev/README.md
 │   │   ├── stage/README.md
