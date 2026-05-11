@@ -5,4 +5,5 @@ steps:
       - '-c'
       - |
         echo "Add release verification steps here."
-        echo "Examples: policy checks, metadata checks, post-build controls."
+        echo "Verification should validate release metadata, image digest, and deploy eligibility inputs."
+        echo "See docs/cloudbuild-verification.md for MVP expectations."
