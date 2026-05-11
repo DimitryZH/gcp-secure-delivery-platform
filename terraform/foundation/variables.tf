@@ -35,3 +35,21 @@ variable "artifact_registry_description" {
   type        = string
   default     = "Container images for the secure delivery platform trusted release path."
 }
+
+variable "build_service_account_id" {
+  description = "Service account ID for the build and verification identity."
+  type        = string
+  default     = "secure-delivery-build"
+}
+
+variable "deploy_service_account_id" {
+  description = "Service account ID for the deployment identity."
+  type        = string
+  default     = "secure-delivery-deploy"
+}
+
+variable "reviewer_service_account_id" {
+  description = "Service account ID for the release reviewer identity."
+  type        = string
+  default     = "secure-delivery-reviewer"
+}
