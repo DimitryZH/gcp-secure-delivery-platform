@@ -45,19 +45,11 @@ Minimum identities:
 - infrastructure provisioning identity
 - operator or reviewer identity
 
-Implemented MVP identities:
+The build identity should be able to build, verify, and publish artifacts. It should not automatically receive broad deployment authority.
 
-| Identity | Default account ID | Baseline roles | Purpose |
-| --- | --- | --- | --- |
-| Build | `secure-delivery-build` | `roles/artifactregistry.writer`, `roles/logging.logWriter` | Build, verify, log, and publish release candidate images |
-| Deploy | `secure-delivery-deploy` | `roles/clouddeploy.jobRunner`, `roles/container.developer`, `roles/logging.logWriter` | Execute controlled deployment actions |
-| Reviewer | `secure-delivery-reviewer` | `roles/logging.viewer`, `roles/monitoring.viewer` | Review release health and troubleshoot delivery outcomes |
+The deployment identity should receive only the permissions needed to deploy through the controlled release path.
 
-The build identity can publish artifacts and write logs, but it does not receive broad deployment authority.
-
-The deployment identity receives only the baseline permissions needed to support the controlled release path.
-
-Operator or reviewer access supports release review and troubleshooting without requiring project-wide administrative access.
+Operator or reviewer access should support release review and troubleshooting without requiring project-wide administrative access.
 
 ## Kubernetes baseline
 
