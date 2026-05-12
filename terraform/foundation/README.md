@@ -59,6 +59,11 @@ The build identity can publish artifacts and write logs, but it does not receive
 The deployment identity receives only the baseline permissions needed to support the controlled release path.
 
 Operator or reviewer access supports release review and troubleshooting without requiring project-wide administrative access.
+The build identity should be able to build, verify, and publish artifacts. It should not automatically receive broad deployment authority.
+
+The deployment identity should receive only the permissions needed to deploy through the controlled release path.
+
+Operator or reviewer access should support release review and troubleshooting without requiring project-wide administrative access.
 
 ## Kubernetes baseline
 
@@ -67,6 +72,7 @@ The MVP uses one GKE cluster.
 The foundation creates a minimal cluster using `gke_cluster_name`, `gke_location`, `gke_initial_node_count`, and `gke_node_machine_type`.
 
 The cluster contains three namespaces by default:
+The cluster should contain three namespaces:
 - `dev`
 - `stage`
 - `prod`
