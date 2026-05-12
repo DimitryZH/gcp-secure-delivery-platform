@@ -104,6 +104,9 @@ gcp-secure-delivery-platform/
 ├── terraform/
 │   ├── foundation/
 │   │   ├── README.md
+│   │   ├── main.tf
+│   │   ├── gke.tf
+│   │   ├── service-accounts.tf
 │   │   ├── main.tf│   │   ├── service-accounts.tf
 │   │   ├── variables.tf
 │   │   └── versions.tf

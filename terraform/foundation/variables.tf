@@ -53,3 +53,39 @@ variable "reviewer_service_account_id" {
   type        = string
   default     = "secure-delivery-reviewer"
 }
+
+variable "node_service_account_id" {
+  description = "Service account ID for the GKE node identity."
+  type        = string
+  default     = "secure-delivery-node"
+}
+
+variable "gke_cluster_name" {
+  description = "Name of the single GKE cluster used by the MVP baseline."
+  type        = string
+  default     = "secure-delivery-platform"
+}
+
+variable "gke_location" {
+  description = "Google Cloud zone or region for the MVP GKE cluster."
+  type        = string
+  default     = "us-central1-a"
+}
+
+variable "gke_initial_node_count" {
+  description = "Initial node count for the MVP GKE cluster."
+  type        = number
+  default     = 1
+}
+
+variable "gke_node_machine_type" {
+  description = "Machine type for the MVP GKE cluster node pool."
+  type        = string
+  default     = "e2-small"
+}
+
+variable "environment_namespaces" {
+  description = "Kubernetes namespaces used to model MVP environment progression."
+  type        = set(string)
+  default     = ["dev", "stage", "prod"]
+}

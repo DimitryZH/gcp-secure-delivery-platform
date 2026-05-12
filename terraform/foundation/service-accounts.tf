@@ -25,6 +25,15 @@ resource "google_service_account" "reviewer" {
   depends_on = [google_project_service.required]
 }
 
+resource "google_service_account" "node" {
+  project      = var.project_id
+  account_id   = var.node_service_account_id
+  display_name = "Secure delivery node identity"
+  description  = "Runtime node identity for the MVP GKE cluster."
+
+  depends_on = [google_project_service.required]
+}
+
 resource "google_project_iam_member" "build_artifact_registry_writer" {
   project = var.project_id
   role    = "roles/artifactregistry.writer"
@@ -65,4 +74,16 @@ resource "google_project_iam_member" "reviewer_monitoring_viewer" {
   project = var.project_id
   role    = "roles/monitoring.viewer"
   member  = "serviceAccount:${google_service_account.reviewer.email}"
+}
+
+resource "google_project_iam_member" "node_log_writer" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.node.email}"
+}
+
+resource "google_project_iam_member" "node_monitoring_metric_writer" {
+  project = var.project_id
+  role    = "roles/monitoring.metricWriter"
+  member  = "serviceAccount:${google_service_account.node.email}"
 }

@@ -45,6 +45,20 @@ Minimum identities:
 - infrastructure provisioning identity
 - operator or reviewer identity
 
+Implemented MVP identities:
+
+| Identity | Default account ID | Baseline roles | Purpose |
+| --- | --- | --- | --- |
+| Build | `secure-delivery-build` | `roles/artifactregistry.writer`, `roles/logging.logWriter` | Build, verify, log, and publish release candidate images |
+| Deploy | `secure-delivery-deploy` | `roles/clouddeploy.jobRunner`, `roles/container.developer`, `roles/logging.logWriter` | Execute controlled deployment actions |
+| Node | `secure-delivery-node` | `roles/logging.logWriter`, `roles/monitoring.metricWriter` | Run cluster nodes with minimal runtime telemetry permissions |
+| Reviewer | `secure-delivery-reviewer` | `roles/logging.viewer`, `roles/monitoring.viewer` | Review release health and troubleshoot delivery outcomes |
+
+The build identity can publish artifacts and write logs, but it does not receive broad deployment authority.
+
+The deployment identity receives only the baseline permissions needed to support the controlled release path.
+
+Operator or reviewer access supports release review and troubleshooting without requiring project-wide administrative access.
 The build identity should be able to build, verify, and publish artifacts. It should not automatically receive broad deployment authority.
 
 The deployment identity should receive only the permissions needed to deploy through the controlled release path.
@@ -55,12 +69,17 @@ Operator or reviewer access should support release review and troubleshooting wi
 
 The MVP uses one GKE cluster.
 
+The foundation creates a minimal cluster using `gke_cluster_name`, `gke_location`, `gke_initial_node_count`, and `gke_node_machine_type`.
+
+The cluster contains three namespaces by default:
 The cluster should contain three namespaces:
 - `dev`
 - `stage`
 - `prod`
 
 This is enough to demonstrate environment-specific trust and promotion semantics while keeping the baseline reproducible.
+
+The baseline intentionally avoids multi-cluster topology, service mesh, and advanced Kubernetes platform abstractions.
 
 ## Terraform structure expectations
 
