@@ -21,6 +21,21 @@ Build artifact
 
 A successful build does not automatically mean the release is deployable. The verification stage must produce enough evidence for the trust model and environment policies to make a deployment decision.
 
+## MVP Cloud Build verification flow
+
+The verification build should remain a separate, reviewable gate after image publication. It consumes the release metadata produced by the build step and either records a deployable verification result or stops before promotion.
+
+Minimum flow:
+
+1. Read the release metadata for the candidate artifact.
+2. Confirm required identity fields are present: `source_repository`, `commit_sha`, `build_id`, `build_service_account`, `image_uri`, and `image_digest`.
+3. Confirm the image URI points to the approved Artifact Registry location for the platform.
+4. Confirm the deployment input can reference the immutable image digest instead of only a mutable tag.
+5. Emit `verification_status=passed` only when all MVP checks pass.
+6. Emit `verification_status=failed` and stop before promotion when any required check fails.
+
+The verification build should not create a Cloud Deploy release or promote a release candidate directly. Its output is an eligibility signal that later deployment and trust enforcement steps can consume.
+
 ## MVP verification checks
 
 The MVP should start with a minimal set of checks:
