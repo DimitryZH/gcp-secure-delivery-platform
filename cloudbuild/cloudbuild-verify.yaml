@@ -1,9 +1,69 @@
+substitutions:
+  _IMAGE_URI: 'REPLACE_WITH_IMAGE_URI'
+  _IMAGE_DIGEST: 'REPLACE_WITH_IMAGE_DIGEST'
+  _BUILD_SERVICE_ACCOUNT: 'REPLACE_WITH_BUILD_SERVICE_ACCOUNT'
+  _RELEASE_METADATA_FILE: 'release-metadata.json'
+
 steps:
   - name: 'ubuntu'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        echo "Add release verification steps here."
-        echo "Verification should validate release metadata, image digest, and deploy eligibility inputs."
-        echo "See docs/cloudbuild-verification.md for MVP expectations."
+        set -euo pipefail
+
+        fail() {
+          echo "verification_status=failed"
+          echo "verification_failure_reason=$1"
+          exit 1
+        }
+
+        require_value() {
+          local name="$1"
+          local value="$2"
+
+          if [[ -z "${value}" || "${value}" == REPLACE_WITH_* ]]; then
+            fail "${name} is required"
+          fi
+        }
+
+        require_value "commit_sha" "${COMMIT_SHA}"
+        require_value "build_id" "${BUILD_ID}"
+        require_value "image_uri" "${_IMAGE_URI}"
+        require_value "image_digest" "${_IMAGE_DIGEST}"
+        require_value "build_service_account" "${_BUILD_SERVICE_ACCOUNT}"
+
+        if [[ "${_IMAGE_URI}" != *"-docker.pkg.dev/"* ]]; then
+          fail "image_uri must point to an Artifact Registry Docker repository"
+        fi
+
+        if [[ "${_IMAGE_DIGEST}" != sha256:* ]]; then
+          fail "image_digest must be an immutable sha256 digest"
+        fi
+
+        verification_timestamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        trust_signal_ref="pending-binauthz-attestation/${_IMAGE_DIGEST}"
+
+        cat > "${_RELEASE_METADATA_FILE}" <<METADATA
+        {
+          "source_repository": "${REPO_NAME:-unknown}",
+          "commit_sha": "${COMMIT_SHA}",
+          "build_id": "${BUILD_ID}",
+          "build_service_account": "${_BUILD_SERVICE_ACCOUNT}",
+          "image_uri": "${_IMAGE_URI}",
+          "image_digest": "${_IMAGE_DIGEST}",
+          "verification_status": "passed",
+          "verification_timestamp": "${verification_timestamp}",
+          "trust_signal_ref": "${trust_signal_ref}"
+        }
+        METADATA
+
+        echo "verification_status=passed"
+        echo "release_metadata_file=${_RELEASE_METADATA_FILE}"
+        echo "trust_signal_ref=${trust_signal_ref}"
+
+artifacts:
+  objects:
+    location: 'gs://${PROJECT_ID}-release-metadata/${BUILD_ID}/'
+    paths:
+      - '${_RELEASE_METADATA_FILE}'

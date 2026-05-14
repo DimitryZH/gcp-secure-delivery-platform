@@ -44,7 +44,14 @@ Verification should emit or update the release metadata contract with:
 - `image_digest`
 - `trust_signal_ref`, when available
 
-A failed verification should still preserve release metadata so operators can understand why the release candidate is not deployable.
+The baseline verification build in `cloudbuild/cloudbuild-verify.yaml` writes `release-metadata.json` as a Cloud Build artifact after checking the minimum deploy eligibility inputs. It expects the triggering workflow to provide:
+- `_IMAGE_URI` — the Artifact Registry image URI for the release candidate
+- `_IMAGE_DIGEST` — the immutable image digest, formatted as `sha256:<digest>`
+- `_BUILD_SERVICE_ACCOUNT` — the Cloud Build identity that produced the artifact
+
+The baseline file uses explicit placeholder defaults so an ad-hoc run fails closed until the release-specific values are supplied by a trigger or operator.
+
+A failed verification should still preserve release metadata so operators can understand why the release candidate is not deployable. The first executable baseline emits the failure reason in Cloud Build logs; preserving a structured failed metadata artifact can be added once the storage location is finalized.
 
 ## Trust signal preparation
 
