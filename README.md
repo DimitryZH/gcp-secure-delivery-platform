@@ -107,6 +107,7 @@ gcp-secure-delivery-platform/
 │   │   ├── main.tf
 │   │   ├── gke.tf
 │   │   ├── service-accounts.tf
+│   │   ├── outputs.tf
 │   │   ├── main.tf│   │   ├── service-accounts.tf
 │   │   ├── variables.tf
 │   │   └── versions.tf

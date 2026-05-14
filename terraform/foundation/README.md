@@ -81,6 +81,16 @@ This is enough to demonstrate environment-specific trust and promotion semantics
 
 The baseline intentionally avoids multi-cluster topology, service mesh, and advanced Kubernetes platform abstractions.
 
+## Foundation outputs
+
+The foundation exposes a small set of outputs that later delivery steps can consume without coupling to Terraform internals:
+- Artifact Registry repository ID, location, and Docker image prefix
+- GKE cluster name and location
+- environment namespaces
+- build, deploy, node, and reviewer service account emails
+
+These outputs are intended to support Cloud Build, Cloud Deploy, release metadata generation, and operator review.
+
 ## Terraform structure expectations
 
 Prefer a clear baseline before introducing reusable modules.
