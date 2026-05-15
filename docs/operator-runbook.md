@@ -12,6 +12,16 @@ Verify that the release artifact was built and published.
 ### 2. Review build outcome
 Check build results and confirm the release candidate passed the required checks.
 
+Before approving promotion, review the verification output for:
+- `commit_sha` matching the intended source revision
+- `build_id` matching the reviewed Cloud Build execution
+- `image_digest` identifying the immutable candidate artifact
+- `verification_status=passed`
+- `verification_timestamp` showing when the gate completed
+- `trust_signal_ref` indicating the expected trust signal path, when available
+
+If `verification_status=failed`, stop the promotion workflow and inspect the failed check instead of rebuilding or promoting the artifact implicitly.
+
 ### 3. Confirm deployment trust status
 If deployment is blocked, inspect trust and policy conditions before proceeding.
 

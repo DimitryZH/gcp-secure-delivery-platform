@@ -21,6 +21,21 @@ Build artifact
 
 A successful build does not automatically mean the release is deployable. The verification stage must produce enough evidence for the trust model and environment policies to make a deployment decision.
 
+## MVP Cloud Build verification flow
+
+The verification build should remain a separate, reviewable gate after image publication. It consumes the release metadata produced by the build step and either records a deployable verification result or stops before promotion.
+
+Minimum flow:
+
+1. Read the release metadata for the candidate artifact.
+2. Confirm required identity fields are present: `source_repository`, `commit_sha`, `build_id`, `build_service_account`, `image_uri`, and `image_digest`.
+3. Confirm the image URI points to the approved Artifact Registry location for the platform.
+4. Confirm the deployment input can reference the immutable image digest instead of only a mutable tag.
+5. Emit `verification_status=passed` only when all MVP checks pass.
+6. Emit `verification_status=failed` and stop before promotion when any required check fails.
+
+The verification build should not create a Cloud Deploy release or promote a release candidate directly. Its output is an eligibility signal that later deployment and trust enforcement steps can consume.
+
 ## MVP verification checks
 
 The MVP should start with a minimal set of checks:
@@ -43,6 +58,24 @@ Verification should emit or update the release metadata contract with:
 - `verification_timestamp`
 - `image_digest`
 - `trust_signal_ref`, when available
+
+For the MVP, the verification result can be represented as a small JSON object that is written to build artifacts or emitted with consistent log keys:
+
+```json
+{
+  "source_repository": "<repository-uri>",
+  "commit_sha": "<commit-sha>",
+  "build_id": "<cloud-build-id>",
+  "build_service_account": "<cloud-build-service-account>",
+  "image_uri": "<artifact-registry-image-uri>",
+  "image_digest": "<sha256-image-digest>",
+  "verification_status": "passed",
+  "verification_timestamp": "<rfc3339-timestamp>",
+  "trust_signal_ref": "pending-binary-authorization-attestation"
+}
+```
+
+Use `verification_status=failed` for a candidate that does not meet the MVP checks. The failure output should keep the release identity fields populated when they are known, and it should not create or imply a deployable trust signal.
 
 A failed verification should still preserve release metadata so operators can understand why the release candidate is not deployable.
 
