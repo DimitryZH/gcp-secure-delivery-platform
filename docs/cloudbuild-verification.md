@@ -59,6 +59,24 @@ Verification should emit or update the release metadata contract with:
 - `image_digest`
 - `trust_signal_ref`, when available
 
+For the MVP, the verification result can be represented as a small JSON object that is written to build artifacts or emitted with consistent log keys:
+
+```json
+{
+  "source_repository": "<repository-uri>",
+  "commit_sha": "<commit-sha>",
+  "build_id": "<cloud-build-id>",
+  "build_service_account": "<cloud-build-service-account>",
+  "image_uri": "<artifact-registry-image-uri>",
+  "image_digest": "<sha256-image-digest>",
+  "verification_status": "passed",
+  "verification_timestamp": "<rfc3339-timestamp>",
+  "trust_signal_ref": "pending-binary-authorization-attestation"
+}
+```
+
+Use `verification_status=failed` for a candidate that does not meet the MVP checks. The failure output should keep the release identity fields populated when they are known, and it should not create or imply a deployable trust signal.
+
 A failed verification should still preserve release metadata so operators can understand why the release candidate is not deployable.
 
 ## Trust signal preparation
