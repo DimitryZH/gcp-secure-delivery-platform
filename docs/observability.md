@@ -40,6 +40,15 @@ Minimum runtime metadata to review:
 
 These annotations should help answer what source revision, build execution, immutable artifact, and verification result produced the workload currently running in a namespace. They are not a replacement for long-term audit storage or a release catalog in the MVP.
 
+## MVP review loop references
+
+The monitoring notes are split by signal type so the MVP review loop stays small and easy to evolve:
+- [Dashboards](../monitoring/dashboards/README.md) summarize deployment health, error rate, latency, and release metadata lookup.
+- [Log-based Metrics](../monitoring/log-based-metrics/README.md) capture release events, deployment denials, and error bursts.
+- [Alert Policies](../monitoring/alert-policies/README.md) identify unhealthy rollout signals that should stop or delay promotion.
+
+Together, these notes define the first operator review loop: identify the running release, inspect health signals, review failures or denials, and decide whether promotion should continue.
+
 ## Recommended operator questions
 
 - Did deployment succeed technically?
