@@ -91,6 +91,15 @@ The trust signal should be tied to:
 
 The first version may document or emit this input before Binary Authorization attestation is fully automated. The important architectural rule is that the trust signal is derived from verification, not from the mere existence of an image.
 
+## Governance handoff after verification
+
+Verification output is an input to governance, not the final deployment decision. After verification finishes:
+- trust enforcement evaluates deploy eligibility for the target environment
+- deployment proceeds only through the explicit promotion path
+- operators perform runtime review before allowing further promotion
+
+This keeps the release path aligned with the rule: verify first, enforce trust, deploy with policy, then review before promotion.
+
 ## Failure semantics
 
 Verification failure should stop the trusted release path before promotion.

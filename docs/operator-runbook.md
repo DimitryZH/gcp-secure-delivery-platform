@@ -43,6 +43,11 @@ Advance only if the release is operationally healthy and trust conditions remain
 
 Treat this as a promotion checkpoint, not a routine continuation step. If runtime evidence is incomplete or contradictory, pause promotion until release identity, trust status, and health signals are reconciled.
 
+Promotion decision outcomes should be explicit and recorded:
+- continue promotion to the next environment
+- hold in the current environment for additional review
+- rollback or reject the release candidate
+
 ## Common failure categories
 
 - build failure

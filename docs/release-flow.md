@@ -74,6 +74,8 @@ Promotion is allowed to continue only when runtime review confirms:
 - verification and trust expectations remain satisfied for the next environment
 - no blocking runtime health signal requires rollback or investigation
 
+If any checkpoint condition is not met, the release path should pause in the current environment until operators complete investigation and record a clear decision to continue, rollback, or reject the release candidate.
+
 ## Design intent
 
 The key design decision is that deployment should be the result of a trusted release decision, not the default outcome of a successful build.
