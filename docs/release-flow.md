@@ -17,7 +17,8 @@ The release flow is governed by release identity and trust signals. A build resu
 7. Binary Authorization evaluates deploy eligibility for the target environment.
 8. Cloud Deploy handles explicit promotion through target environments.
 9. Approved releases are deployed to GKE.
-10. Operators use Cloud Monitoring and Cloud Logging to review outcome before further promotion.
+10. Operators run a post-deployment review loop using dashboards, log-based metrics, and alert policies.
+11. Promotion continues only when runtime review confirms release health and release identity alignment.
 
 ## Logical stages
 
@@ -61,6 +62,18 @@ After deployment, operators review runtime signals before approving further prom
 
 Runtime review should be tied back to release identity so operators can answer what was deployed, where it was deployed, and whether it is healthy.
 
+The MVP runtime review loop should combine:
+- dashboards for deployment health, error rate, latency, and release metadata lookup
+- log-based metrics for release events, denials, and error bursts
+- alert policies for unhealthy rollout conditions
+
+### Stage 6 — Promotion decision checkpoint
+
+Promotion is allowed to continue only when runtime review confirms:
+- the running workload still maps to the intended commit SHA, build ID, and image digest
+- verification and trust expectations remain satisfied for the next environment
+- no blocking runtime health signal requires rollback or investigation
+
 ## Design intent
 
 The key design decision is that deployment should be the result of a trusted release decision, not the default outcome of a successful build.
@@ -70,3 +83,5 @@ Related architecture documents:
 - [Cloud Build Verification Expectations](cloudbuild-verification.md)
 - [Trust Model](architecture/trust-model.md)
 - [Environment Policies](architecture/environment-policies.md)
+- [Operator Runbook](operator-runbook.md)
+- [Observability](observability.md)
