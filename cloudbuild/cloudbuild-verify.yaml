@@ -4,6 +4,9 @@ steps:
     args:
       - '-c'
       - |
-        echo "Add release verification steps here."
-        echo "Verification should validate release metadata, image digest, and deploy eligibility inputs."
-        echo "See docs/cloudbuild-verification.md for MVP expectations."
+        echo "MVP verification gate placeholder"
+        echo "1. Read release metadata for the candidate artifact."
+        echo "2. Validate source, build, image URI, and image digest fields."
+        echo "3. Confirm deployment input can reference the immutable digest."
+        echo "4. Emit a verification status before any promotion step consumes the release."
+        echo "See docs/cloudbuild-verification.md for the expected flow."

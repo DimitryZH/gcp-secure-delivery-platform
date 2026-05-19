@@ -19,6 +19,20 @@ This keeps the platform reproducible while still demonstrating governed promotio
 | stage | Pre-production validation | Stricter trust and operator review | Explicit promotion from dev |
 | prod | Controlled production target | Strictest MVP trust requirements | Explicit promotion after stage review |
 
+## Verification expectations by environment
+
+Verification requirements become stricter as a release moves toward prod. The MVP does not need separate verification systems per namespace; it needs clear expectations for how the same verification output is evaluated before promotion.
+
+| Environment | Required verification expectation | Operator decision point |
+| --- | --- | --- |
+| dev | Required fields are present and baseline checks complete | Confirm the candidate is traceable before initial deployment |
+| stage | `verification_status=passed`, immutable `image_digest`, and approved image location are confirmed | Review dev outcome before explicit promotion |
+| prod | Stage expectations remain satisfied and the trust signal reference is reviewable | Approve promotion only after stage runtime review |
+
+A failed verification result should stop promotion to stage or prod. Dev may be used to troubleshoot early failures, but it should not normalize bypassing release identity or artifact immutability.
+
+Policy checks should evaluate canonical metadata keys (`commit_sha`, `build_id`, `image_digest`, `verification_status`, `trust_signal_ref`, `target_environment`) to keep environment decisions consistent with the release contract.
+
 ## Dev policy
 
 Dev is the first controlled target in the release path.

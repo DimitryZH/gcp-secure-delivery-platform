@@ -21,6 +21,25 @@ The MVP release identity is composed of the following fields:
 | Verification result | Identifies whether pre-deployment checks passed | Required before trust signal creation |
 | Promotion state | Identifies the current environment progression | Required for operator review |
 
+## Canonical MVP field names
+
+To keep promotion gates and verification outputs consistent, MVP machine-readable fields should use the canonical snake_case keys from the metadata contract.
+
+Canonical keys:
+- `source_repository`
+- `commit_sha`
+- `build_id`
+- `build_service_account`
+- `image_uri`
+- `image_digest`
+- `verification_status`
+- `verification_timestamp`
+- `trust_signal_ref`
+- `target_environment`
+- `promotion_state`
+
+Human-readable wording in documents may use phrases like "commit SHA" or "build ID", but policy and automation decisions should reference the canonical keys above.
+
 ## Commit SHA usage
 
 The commit SHA is the source revision anchor.

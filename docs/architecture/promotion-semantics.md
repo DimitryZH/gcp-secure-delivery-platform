@@ -49,6 +49,8 @@ MVP gates:
 - the previous environment deployment completed successfully, when applicable
 - operators have enough runtime visibility to make the promotion decision
 
+For consistency, promotion checks should evaluate canonical metadata keys from the release contract (`commit_sha`, `build_id`, `image_digest`, `verification_status`, `trust_signal_ref`, `target_environment`, `promotion_state`).
+
 ## What promotion is not
 
 Promotion is not:
