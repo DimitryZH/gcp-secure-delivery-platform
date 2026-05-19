@@ -102,6 +102,16 @@ Deferred forms:
 - enterprise change management integration
 - long-term audit data warehouse
 
+## Naming consistency rules
+
+To avoid policy drift between docs and automation, machine-readable artifacts should use these exact keys:
+- `commit_sha` (not `commit-sha`)
+- `build_id` (not `build-id`)
+- `image_digest` (not `image-digest`)
+- `verification_status` (not `verification-status`)
+
+Kubernetes labels or annotations may keep platform-specific naming constraints, but any derived verification output or release record should normalize values back to canonical keys.
+
 ## Validation expectations
 
 The metadata contract should support basic validation before deployment:

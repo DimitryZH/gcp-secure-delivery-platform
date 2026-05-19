@@ -31,6 +31,8 @@ Verification requirements become stricter as a release moves toward prod. The MV
 
 A failed verification result should stop promotion to stage or prod. Dev may be used to troubleshoot early failures, but it should not normalize bypassing release identity or artifact immutability.
 
+Policy checks should evaluate canonical metadata keys (`commit_sha`, `build_id`, `image_digest`, `verification_status`, `trust_signal_ref`, `target_environment`) to keep environment decisions consistent with the release contract.
+
 ## Dev policy
 
 Dev is the first controlled target in the release path.

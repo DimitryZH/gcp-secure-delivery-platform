@@ -35,6 +35,12 @@ Source change
 
 The key rule is that build success is necessary but not sufficient. Deployment eligibility depends on the trust signal and the target environment policy.
 
+Minimum machine-readable gate criteria should align to canonical metadata keys:
+- `commit_sha`
+- `build_id`
+- `image_digest`
+- `verification_status`
+- `trust_signal_ref`, when required by environment policy
 
 ## Promotion semantics
 
